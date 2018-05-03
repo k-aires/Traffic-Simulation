@@ -1,0 +1,80 @@
+      ^           ^
+     |7 |8 |     |9 |10|
+     |  |  |     |  |  |
+     |  |  |     |  |  |
+-----    d  -----    h  -----
+-> 1 a       2   e^ ->  3  ->
+-----       -----       -----
+<- 4  ^  <-c 5         g6  <-
+-----  b    -----  f    -----
+     |11|12|     |13|14|
+     |  |  |     |  |  |
+     |  |  |     |  |  |
+      ^           ^
+
+Fontes: 1, 6, 8, 10, 11, 13
+	Recebem carros a intervalos randômicos dentro de uma faixa de tempo
+Sumidouros: 3, 4, 7, 9, 12, 14
+	Os carros que saem são excluídos
+Normais: 2, 5
+	Recebem carros de outras pistas e passam carros para outras pistas
+
+Pista 1: fonte                         Pista 2: normal
+	Destinos: 7, 2, 12                     Destinos: 9, 3, 14
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros:
+Pista 3: sumidouro                     Pista 4: sumidouro
+	Destinos: --                           Destinos: --
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros:
+Pista 5: normal                        Pista 6: fonte
+	Destinos: 4, 12, 7                     Destinos: 5, 14, 9
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros:
+Pista 7: sumidouro                     Pista 8: fonte   
+	Destinos: --                           Destinos: 2, 12, 4
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros
+Pista 9: sumidouro                     Pista 10: fonte
+	Destinos: --                           Destinos: 3, 14, 5
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros:
+Pista 11: fonte                        Pista 12: sumidouro
+	Destinos: 4, 7, 2                      Destinos: --
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros:
+Pista 13: fonte                        Pista 14: sumidouro
+	Destinos: 5, 9, 3                      Destinos: --
+	Velocidade:                            Velocidade:
+	N. carros:                             N. carros:
+
+Lista de pistas
+Cada pista é uma fila
+Pistas cheias são bloqueadas
+Um carro indo para uma pista cheia bloqueia a própria pista e não muda de pista
+
+
+Semáforo a:                            Semáforo b:
+	Pista aferente: 1                      Pista aferente: 11
+	Pistas eferentes: 7, 2, 12             Pistas eferentes: 4, 7, 2
+	Probabilidades:                        Probabilidades:
+Semáforo c:                            Semáforo d:
+	Pista aferente: 5                      Pista aferente: 8
+	Pistas eferentes: 4, 12, 7             Pistas eferentes: 2, 12, 4
+	Probabilidades:                        Probabilidades:
+Semáforo e:                            Semáforo f:
+	Pista aferente: 2                      Pista aferente: 13
+	Pistas eferentes: 9, 3, 14             Pistas eferentes: 5, 9, 3
+	Probabilidades:                        Probabilidades:
+Semáforo g:                            Semáforo h:
+	Pista aferente: 6                      Pista aferente: 10
+	Pistas eferentes: 5, 14, 9             Pistas eferentes: 3, 14, 5
+	Probabilidades:                        Probabilidades:
+
+Lista de semáforos
+Semáforos são objetos
+Possuem lista de pistas aferentes e eferentes
+A lista de pistas eferentes possui lista de probabilidades de cada pista
+
+Veículos são objetos
+Possuem tamanho + 1m frente + 2m trás

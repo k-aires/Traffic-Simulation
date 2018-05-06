@@ -1,7 +1,8 @@
 //! Copyright [2018] <Helena Kunz Aires>
+//! Copyright [2018] <Picoxels>
 
-#ifndef STRUCTURES_ARRAY_LIST_H
-#define STRUCTURES_ARRAY_LIST_H
+#ifndef STRUCTURES_ARRAY_LIST_HPP
+#define STRUCTURES_ARRAY_LIST_HPP
 
 #include <cstdint>
 #include <stdexcept>

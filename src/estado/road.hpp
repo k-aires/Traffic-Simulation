@@ -19,13 +19,18 @@ class Road {
      Road();
      explicit Road(std::size_t max_size, std::size_t velocity);
 
-     void add_car(Car car);
+     bool add_car(Car car);
      Car remove_car();
+
+     bool free();
+     std::size_t max_size();
+     std::size_t size();
 
  private:
      std::size_t size_;
      std::size_t max_size_;
      std::size_t velocity_;
+     bool free_;
      structures::ArrayQueue<Car> traffic_;
 }
 
@@ -37,8 +42,26 @@ Road::Road() {
 
 Road::Road(std::size_t max_size, std::size_t velocity) : max_size_{max_size}, velocity_{velocity}, size_{0u}, traffic_{new ArrayQueue<Car>((int)max_size/4)} {}
 
-void Road::add_car(Car car) {}
+bool Road::add_car(Car car) {
+    if (car.size() < max_size_-size_) {
+	    traffic_.enqueue(car);
+	    size_ += car.size();
+	    return true;
+    }
 
-Car Road::remove_car() {}
+    return false;
+}
+
+Car Road::remove_car() {
+    auto car_ = traffic_.dequeue();
+    size_ -= car.size();
+    return car;
+}
+
+bool Road::free() {return free_;}
+
+std::size_t Road::max_size() {return max_size_;}
+
+std::size_t Road::size() {return size_;}
 
 #endif

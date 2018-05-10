@@ -1,5 +1,5 @@
 //! Copyright [2018] <Helena Kunz Aires>
-//! Copyright [2018] <Picoxels>
+//! Copyright [2018] <Arthur Mesquita Pickcius>
 
 #ifndef BIG_BROTHER_HPP
 #define BIG_BROTHER_HPP

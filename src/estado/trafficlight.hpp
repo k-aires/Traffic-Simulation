@@ -16,11 +16,11 @@
  */
 class TrafficLight {
  public:
-     TrafficLight(Road origin, structures::ArrayList<Road> destinations);
-     TrafficLight(Road origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities);
+     TrafficLight(Road* origin, structures::ArrayList<Road> destinations);
+     TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities);
 
-     Road& origin();
-     Road& destinanion();
+     Road origin();
+     Road destination();
 
      std::size_t open_light();
 
@@ -32,7 +32,7 @@ class TrafficLight {
 
 TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations) : origin_{origin}, destinations_{destinations} {
     srand(0);
-    probabilities_ = ArrayList<int>(3);
+    probabilities_ = structures::ArrayList<int>(3);
     probabilities_[0] = rand()%8 + 1;
     auto helper = 9 - probabilities_[0];
     probabilities_[1] = rand()%helper + 1;
@@ -41,33 +41,33 @@ TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destination
 
 TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities) : origin_{origin}, destinations_{destinations}, probabilities_{probabilities} {}
 
-Road& TrafficLight::origin() {return &origin_;}
+Road TrafficLight::origin() {return origin_;}
 
-Road& TrafficLight::destination() {
+Road TrafficLight::destination() {
     srand(0);
     auto prob = rand()%10;
 
     if (prob < probabilities_[0]) {
-        return destinations[0];
+        return destinations_[0];
     } else if (prob < probabilities_[0] + probabilities_[1]) {
-        return destinations[1];
+        return destinations_[1];
     }
 
-    return destinations[2];
+    return destinations_[2];
 }
 
 std::size_t TrafficLight::open_light() { // Terminar
-    auto helper = destination();
-    if (helper.free()) {
-	    auto free_space_ = helper.max_size() - helper.size();
-	    auto car_ = origin.remove_car();
+    Road* helper = destination();
+    if (helper->free()) {
+	    auto free_space_ = helper->max_size() - helper->size();
+	    auto car_ = origin_->remove_car();
 	    if (car_.size() < free_space_) {
-		    helper.add_car();
+		    helper->add_car(car_);
 	    }
     } else {
     }
 
-    return helper.velocity();
+    return helper->velocity();
 }
 
 #endif

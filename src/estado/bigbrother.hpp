@@ -23,9 +23,9 @@ class BigBrother {
  public:
      BigBrother();
 
-     void start_simulation();
-     void end_simulation();
-     void set_in_motion();
+     std::size_t start_simulation();
+     std::size_t end_simulation();
+     std::size_t set_in_motion();
 
      void blitz(); //Cria ou deleta carros
 
@@ -33,34 +33,33 @@ class BigBrother {
 
  private:
      structures::LinkedQueue<std::function<std::size_t()>> events_;
-     structures::ArrayList<Road> roads_;
-     structures::ArrayList<TrafficLight> tlights_;
+     structures::ArrayList<Road>* roads_;
+     structures::ArrayList<TrafficLight>* tlights_;
      Police police_;
 };
 
-BigBrother::BigBrother() : events_{new LinkedQueue<std::function<void()>>()}, roads_{new ArrayList<Road>(14)}, tlights_{new ArrayList<TrafficLight>(8)}, police_{nullptr} {
+BigBrother::BigBrother() : events_{structures::LinkedQueue<std::function<std::size_t()>>()}, roads_{new structures::ArrayList<Road>(14)}, tlights_{new structures::ArrayList<TrafficLight>(8)}, police_{NULL} {
     events_.enqueue(start_simulation);
     srand(0);
 }
 
-void BigBrother::start_simulation() {
+std::size_t BigBrother::start_simulation() {
     // Criar pistas e semáforos
     // Criar polícia
     // Criar carros e iniciar os eventos
+    return 0;
 }
 
-void BigBrother::end_simutalion() {events_.clear();}
+std::size_t BigBrother::end_simulation() {events_.clear(); return 0;}
 
-void BigBrother::set_in_motion() {
+std::size_t BigBrother::set_in_motion() {
     events_.dequeue()();
-    events_.enqueue(tlights[rand()%8].open_light);
+    return 0;
 }
 
 void BigBrother::blitz() {
-    events_.enqueue(police_.create_car);
-    police_.delete_car();
 }
 
-std::size_t queue_size() {return events_.size();}
+std::size_t BigBrother::queue_size() {return events_.size();}
 
 #endif

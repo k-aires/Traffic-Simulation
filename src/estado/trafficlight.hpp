@@ -19,37 +19,37 @@ class TrafficLight {
      TrafficLight(Road origin, structures::ArrayList<Road> destinations);
      TrafficLight(Road origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities);
 
-     &Road origin();
-     &Road destinanion();
+     Road& origin();
+     Road& destinanion();
 
-     void open_light();
+     std::size_t open_light();
 
  private:
-     Road origin_;
+     Road* origin_;
      structures::ArrayList<Road> destinations_;
      structures::ArrayList<int> probabilities_;
 };
 
-TrafficLight::TrafficLight(Road origin, structures::ArrayList<Road> destinations) : origin_{origin}, destinations_{destinations} {
+TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations) : origin_{origin}, destinations_{destinations} {
     srand(0);
-    probabilities = new ArrayList<int>(3);
-    probabilities[0] = rand()%8 + 1;
-    auto helper = 9 - probabilities[0];
-    probabilities[1] = rand()%helper + 1;
-    probabilities[2] = (helper+1) - probabilities[1];
+    probabilities_ = ArrayList<int>(3);
+    probabilities_[0] = rand()%8 + 1;
+    auto helper = 9 - probabilities_[0];
+    probabilities_[1] = rand()%helper + 1;
+    probabilities_[2] = (helper+1) - probabilities_[1];
 }
 
-TrafficLight::TrafficLight(Road origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities) : origin_{origin}, destinations_{destinations}, probabilities_{probabilities} {}
+TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities) : origin_{origin}, destinations_{destinations}, probabilities_{probabilities} {}
 
-&Road TrafficLight::origin() {return &origin_;}
+Road& TrafficLight::origin() {return &origin_;}
 
-&Road TrafficLight::destination() {
+Road& TrafficLight::destination() {
     srand(0);
     auto prob = rand()%10;
 
-    if (prob < probabilities[0]) {
+    if (prob < probabilities_[0]) {
         return destinations[0];
-    } else if (prob < probabilities[0] + probabilities[1]) {
+    } else if (prob < probabilities_[0] + probabilities_[1]) {
         return destinations[1];
     }
 
@@ -67,7 +67,7 @@ std::size_t TrafficLight::open_light() { // Terminar
     } else {
     }
 
-    return destination.velocity();
+    return helper.velocity();
 }
 
 #endif

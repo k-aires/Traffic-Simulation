@@ -28,6 +28,6 @@ Car::Car() {
 
 Car::Car(std::size_t size) : size_{size+3} {}
 
-std::size_t space_taken() {return size_;}
+std::size_t Car::size() {return size_;}
 
 #endif

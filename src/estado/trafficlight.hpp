@@ -28,7 +28,7 @@ class TrafficLight {
      Road origin_;
      structures::ArrayList<Road> destinations_;
      structures::ArrayList<int> probabilities_;
-}
+};
 
 TrafficLight::TrafficLight(Road origin, structures::ArrayList<Road> destinations) : origin_{origin}, destinations_{destinations} {
     srand(0);

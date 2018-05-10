@@ -8,8 +8,12 @@
 #include <cstdlib>
 #include <time.h>
 #include <iostream>
+#include <functional>
 
 #include "../structures/linked_queue.hpp"
+#include "road.hpp"
+#include "trafficlight.hpp"
+#include "police.hpp"
 
 //! Classe Grande Irmão
 /* É a classe que organiza os eventos
@@ -32,7 +36,7 @@ class BigBrother {
      structures::ArrayList<Road> roads_;
      structures::ArrayList<TrafficLight> tlights_;
      Police police_;
-}
+};
 
 BigBrother::BigBrother() : events_{new LinkedQueue<std::function<void()>>()}, roads_{new ArrayList<Road>(14)}, tlights_{new ArrayList<TrafficLight>(8)}, police_{nullptr} {
     events_.enqueue(start_simulation);

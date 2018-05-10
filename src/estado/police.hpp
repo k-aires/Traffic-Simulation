@@ -17,6 +17,6 @@ class Police {
  private:
      structures::ArrayList<Road> creators_;
      structures::ArrayList<Road> destructors_;
-}
+};
 
 #endif

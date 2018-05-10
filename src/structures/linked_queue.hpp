@@ -1,8 +1,8 @@
 //! Copyright [2018] <Helena Kunz Aires>
 //! Copyright [2018] <Picoxels>
 
-#ifndef STRUCTURES_ARRAY_LIST_HPP
-#define STRUCTURES_ARRAY_LIST_HPP
+#ifndef STRUCTURES_LINKED_LIST_HPP
+#define STRUCTURES_LINKED_LIST_HPP
 
 #include <cstdint>
 #include <stdexcept>
@@ -18,10 +18,10 @@ namespace structures {
  *  A retirada de um dado pode ser feita apenas por posição, sendo permitido tirar apenas o primeiro
  */
 template<typename T>
-class ArrayQueue {
+class LinkedQueue {
  public:
-     ArrayQueue();
-     ~ArrayQueue();
+     LinkedQueue();
+     ~LinkedQueue();
 
      void enqueue(const T& data);
 
@@ -66,14 +66,14 @@ class ArrayQueue {
  * Não possui parâmetros
  */
 template<typename T>
-ArrayQueue<T>::ArrayQueue() : head_{nullptr}, tail_{nullptr}, size_{0u} {}
+LinkedQueue<T>::LinkedQueue() : head_{nullptr}, tail_{nullptr}, size_{0u} {}
 
 //! Destrutor
 /* Utilizado ao fim do escopo de utilização da fila
  * Deleta a fila da memória
  */
 template<typename T>
-ArrayQueue<T>::~ArrayQueue() {
+LinkedQueue<T>::~LinkedQueue() {
     clear();
 }
 
@@ -83,13 +83,13 @@ ArrayQueue<T>::~ArrayQueue() {
  * /param data (const T&) = o dado a ser inserido
  */
 template<typename T>
-void ArrayQueue<T>::enqueue(const T& data) {
+void LinkedQueue<T>::enqueue(const T& data) {
     if (size_ == 0u) {
-        head = new Node(data);
-        tail = head;
+        head_ = new Node(data);
+        tail_ = head_;
     } else {
-        tail->next(new Node(data));
-        tail = tail->next();
+        tail_->next(new Node(data));
+        tail_ = tail_->next();
     }
     size_++;
 }
@@ -98,7 +98,7 @@ void ArrayQueue<T>::enqueue(const T& data) {
 /* Atualiza o tamanho da fila para zero, sem retirar elementos
  */
 template<typename T>
-void ArrayQueue<T>::clear() {
+void LinkedQueue<T>::clear() {
     while (size_ > 0) {
         dequeue();
     }
@@ -108,13 +108,13 @@ void ArrayQueue<T>::clear() {
 /* Retira o dado inicial da fila e o retorna
  */
 template<typename T>
-T ArrayQueue<T>::dequeue() {
+T LinkedQueue<T>::dequeue() {
     if (size_ == 0u) {
         throw std::out_of_range("Fila vazia");
     } else {
-        auto data = head->data();
-        auto helper = head;
-        head = head->next();
+        auto data = head_->data();
+        auto helper = head_;
+        head_ = head_->next();
         delete helper;
         size--;
         return data;
@@ -125,11 +125,11 @@ T ArrayQueue<T>::dequeue() {
 /* Retorna o último dado da fila, sem retirá-lo
  */
 template<typename T>
-T& ArrayQueue<T>::back() {
+T& LinkedQueue<T>::back() {
     if (size_ == 0u) {
         throw std::out_of_range("Fila vazia");
     } else {
-        return tail->data();
+        return tail_->data();
     }
 }
 
@@ -137,7 +137,7 @@ T& ArrayQueue<T>::back() {
 /* Verifica se a fila está ou não vazia
  */
 template<typename T>
-bool ArrayQueue<T>::empty() const {
+bool LinkedQueue<T>::empty() const {
     return size_ == 0u;
 }
 
@@ -145,7 +145,7 @@ bool ArrayQueue<T>::empty() const {
 /* Retorna o tamanho atual da fila
  */
 template<typename T>
-std::size_t ArrayQueue<T>::size() const {
+std::size_t LinkedQueue<T>::size() const {
     return size_;
 }
 

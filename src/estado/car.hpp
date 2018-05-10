@@ -19,7 +19,7 @@ class Car {
 
  private:
      std::size_t size_;
-}
+};
 
 Car::Car() {
     srand(0);

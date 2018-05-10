@@ -32,7 +32,7 @@ class Road {
      std::size_t velocity_;
      bool free_;
      structures::ArrayQueue<Car> traffic_;
-}
+};
 
 Road::Road() {
     srand(0);

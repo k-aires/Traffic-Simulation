@@ -32,7 +32,7 @@ class BigBrother {
      std::size_t queue_size();
 
  private:
-     structures::LinkedQueue<std::function<void()>> events_;
+     structures::LinkedQueue<std::function<std::size_t()>> events_;
      structures::ArrayList<Road> roads_;
      structures::ArrayList<TrafficLight> tlights_;
      Police police_;

@@ -25,6 +25,7 @@ class Road {
      bool free();
      std::size_t max_size();
      std::size_t size();
+     std::size_t velocity();
 
  private:
      std::size_t size_;
@@ -40,7 +41,7 @@ Road::Road() {
             (rand()%21)+20);
 }
 
-Road::Road(std::size_t max_size, std::size_t velocity) : max_size_{max_size}, velocity_{velocity}, size_{0u}, traffic_{new ArrayQueue<Car>((int)max_size/4)} {}
+Road::Road(std::size_t max_size, std::size_t velocity) : max_size_{max_size}, velocity_{velocity}, size_{0u}, traffic_{new structures::ArrayQueue<Car>((int)max_size/4)} {}
 
 bool Road::add_car(Car car) {
     if (car.size() < max_size_-size_) {
@@ -63,5 +64,7 @@ bool Road::free() {return free_;}
 std::size_t Road::max_size() {return max_size_;}
 
 std::size_t Road::size() {return size_;}
+
+std::size_t Road::velocity() {return velocity_;}
 
 #endif

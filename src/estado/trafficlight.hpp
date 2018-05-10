@@ -56,7 +56,7 @@ TrafficLight::TrafficLight(Road origin, structures::ArrayList<Road> destinations
     return destinations[2];
 }
 
-void TrafficLight::open_light() { // Terminar
+std::size_t TrafficLight::open_light() { // Terminar
     auto helper = destination();
     if (helper.free()) {
 	    auto free_space_ = helper.max_size() - helper.size();
@@ -66,6 +66,8 @@ void TrafficLight::open_light() { // Terminar
 	    }
     } else {
     }
+
+    return destination.velocity();
 }
 
 #endif

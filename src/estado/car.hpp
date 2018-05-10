@@ -1,5 +1,5 @@
 //! Copyright [2018] <Helena Kunz Aires>
-//! Copyright [2018] <Picoxels>
+//! Copyright [2018] <Arthur Mesquita Pickcius>
 
 #ifndef CAR_HPP
 #define CAR_HPP

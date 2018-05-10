@@ -62,7 +62,7 @@ void TrafficLight::open_light() { // Terminar
 	    auto free_space_ = helper.max_size() - helper.size();
 	    auto car_ = origin.remove_car();
 	    if (car_.size() < free_space_) {
-		    helper.add_car();		    
+		    helper.add_car();
 	    }
     } else {
     }

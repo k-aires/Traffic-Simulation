@@ -10,8 +10,9 @@
 namespace structures {
 
 //! Classe Fila
-/* Implementação de fila em vetor
+/* Implementação de fila lincada
  * Características:
+ *  Não tem tamanho fixo
  *  Pode ou não ser ordenada
  *  Dados entram apenas no final e saem apenas do início
  *  A retirada de um dado pode ser feita apenas por posição, sendo permitido tirar apenas o primeiro
@@ -20,7 +21,6 @@ template<typename T>
 class ArrayQueue {
  public:
      ArrayQueue();
-     explicit ArrayQueue(std::size_t max_size);
      ~ArrayQueue();
 
      void enqueue(const T& data);
@@ -29,35 +29,44 @@ class ArrayQueue {
      T dequeue();
      T& back();
 
-     bool full() const;
      bool empty() const;
 
      std::size_t size() const;
-     std::size_t max_size() const;
 
  private:
-     T* contents;  //! Vetor genérico que armazena a fila
-     std::size_t size_;  //! Tamanho atual da fila, 0 se vazia
-     std::size_t max_size_;  //! Tamanho máximo da fila
-     std::size_t front_;  //! Posição do primeiro no vetor
 
-     static const auto DEFAULT_MAX = 10u;  //! Tamanho padrão da fila
+     class Node {
+      public:
+          explicit Node(const T& data) : data_{data}, next_{nullptr} {}
+
+          Node(const T& data, Node* next) : data_{data}, next_{next} {}
+
+          T& data() {return data_;}
+
+          const T& data() const {return data_;}
+
+          Node* next() {return next_;}
+
+          const Node* next() const {return next_;}
+
+          void next(Node* node) {next_ = node;}
+
+      private:
+          T data_;
+          Node* next_;
+     };
+
+     Node* head_;  // Nodo que aponta para o inicio
+     Node* tail_;  // Nodo que aponta para o fim
+     std::size_t size_;  // Tamanho da fila
 };
 
 //! Construtor padrão
 /* Inicia a fila com valores padrão
  * Não possui parâmetros
- * Utiliza o construtor com parâmetros
  */
 template<typename T>
-ArrayQueue<T>::ArrayQueue() : ArrayQueue(DEFAULT_MAX) {}
-
-//! Construtor com parâmetros
-/* Inicia a fila com os parâmetros passados
- * \param max (size_t) = indica o tamanho máximo da fila
- */
-template<typename T>
-ArrayQueue<T>::ArrayQueue(std::size_t max) : max_size_{max}, size_{0u}, contents{new T[max]}, front_{0u} {}
+ArrayQueue<T>::ArrayQueue() : head_{nullptr}, tail_{nullptr}, size_{0u} {}
 
 //! Destrutor
 /* Utilizado ao fim do escopo de utilização da fila
@@ -65,7 +74,7 @@ ArrayQueue<T>::ArrayQueue(std::size_t max) : max_size_{max}, size_{0u}, contents
  */
 template<typename T>
 ArrayQueue<T>::~ArrayQueue() {
-    if (contents) delete []contents;
+    clear();
 }
 
 //! Inserção no fim da fila
@@ -75,11 +84,14 @@ ArrayQueue<T>::~ArrayQueue() {
  */
 template<typename T>
 void ArrayQueue<T>::enqueue(const T& data) {
-    if (size_ == max_size_) throw std::out_of_range("Fila cheia");
-
-    auto position = (size_ + front_) % max_size_;
+    if (size_ == 0u) {
+        head = new Node(data);
+        tail = head;
+    } else {
+        tail->next(new Node(data));
+        tail = tail->next();
+    }
     size_++;
-    contents[position] = data;
 }
 
 //! Limpa a fila
@@ -87,8 +99,9 @@ void ArrayQueue<T>::enqueue(const T& data) {
  */
 template<typename T>
 void ArrayQueue<T>::clear() {
-    size_ = 0u;
-    front_ = 0u;
+    while (size_ > 0) {
+        dequeue();
+    }
 }
 
 //! Retirada no início da fila
@@ -96,14 +109,16 @@ void ArrayQueue<T>::clear() {
  */
 template<typename T>
 T ArrayQueue<T>::dequeue() {
-    if (size_ == 0u) throw std::out_of_range("Fila vazia");
-
-    auto data = contents[front_];
-    for (auto i = 0u; i < size_; i++) {
-        auto position = (i + front_) % max_size_;
-        contents[position] = contents[position+1%max_size_];
+    if (size_ == 0u) {
+        throw std::out_of_range("Fila vazia");
+    } else {
+        auto data = head->data();
+        auto helper = head;
+        head = head->next();
+        delete helper;
+        size--;
+        return data;
     }
-    return data;
 }
 
 //! Retorna o fim da fila
@@ -111,16 +126,11 @@ T ArrayQueue<T>::dequeue() {
  */
 template<typename T>
 T& ArrayQueue<T>::back() {
-    auto position = (size_-1 + front_) % max_size_;
-    return contents[position];
-}
-
-//! Verificação de fila cheia
-/* Verifica se a fila está ou não cheia
- */
-template<typename T>
-bool ArrayQueue<T>::full() const {
-    return size_ == max_size_;
+    if (size_ == 0u) {
+        throw std::out_of_range("Fila vazia");
+    } else {
+        return tail->data();
+    }
 }
 
 //! Verificação de fila vazia
@@ -137,14 +147,6 @@ bool ArrayQueue<T>::empty() const {
 template<typename T>
 std::size_t ArrayQueue<T>::size() const {
     return size_;
-}
-
-//! Informa o tamanho máximo
-/* Retorna o tamanho máximo que a fila pode ter
- */
-template<typename T>
-std::size_t ArrayQueue<T>::max_size() const {
-    return max_size_;
 }
 
 }  // namespace structures

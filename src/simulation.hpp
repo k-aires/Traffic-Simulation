@@ -1,5 +1,5 @@
-#ifndef CONSTANTS_HPP
-#define CONSTANTS_HPP
+#ifndef SIMULATION_HPP
+#define SIMULATION_HPP
 
 namespace simulation {
   const int tempo_sim = 1000;

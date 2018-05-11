@@ -50,26 +50,26 @@ BigBrother::BigBrother() : events_{structures::LinkedQueue<std::function<std::si
 void BigBrother::start_simulation() {
     // Criar pistas e semáforos
     for (auto i = 0; i < 14; i++) {
-        roads_->push_back(new Road());
+        roads_->push_back(Road());
     } for (auto i = 0; i < 6; i++) {
-        structures::ArrayList<Road>* roads = new ArrayList<Road>(3);
+        structures::ArrayList<Road>* roads = new structures::ArrayList<Road>(3);
 
-        tlights_->push_back(new TrafficLight(roads_->at(i))
+        tlights_->push_back(new TrafficLight(*roads_->at(i)));
     }
-    structures::ArrayList<Road>* roads13 = new ArrayList<Road>(3);
+    structures::ArrayList<Road>* roads13 = new structures::ArrayList<Road>(3);
     roads13->push_back(roads_->at(10));
     roads13->push_back(roads_->at(11));
     roads13->push_back(roads_->at(12));
     tlights_->push_back(new TrafficLight(roads_->at(13), roads13));
 
-    structures::ArrayList<Road>* roads14 = new ArrayList<Road>(3);
+    structures::ArrayList<Road>* roads14 = new structures::ArrayList<Road>(3);
     roads14->push_back(roads_->at(7));
     roads14->push_back(roads_->at(8));
     roads14->push_back(roads_->at(9));
     tlights_->push_back(new TrafficLight(roads_->at(14), roads14));
     // Criar polícia
-    structures::ArrayList<Road>* origins = new ArrayList<Road>(6);
-    structures::ArrayList<Road>* destinations = new ArrayList<Road>(6);
+    structures::ArrayList<Road>* origins = new structures::ArrayList<Road>(6);
+    structures::ArrayList<Road>* destinations = new structures::ArrayList<Road>(6);
     for (auto i = 0; i < 6; i++) {
         origins->push_back(roads_->at(i));
     } for (auto i = 6; i < 12; i++) {

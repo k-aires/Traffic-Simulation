@@ -8,12 +8,13 @@ using namespace std;
 
 int main() {
   size_t tempo = 0;
-  BigBrother::BigBrother();
+  auto bigBrother = BigBrother();
 
   while(tempo < simulation::tempo_sim) {
-
+    
     tempo++;
   }
 
+  bigBrother.end_simulation();
   return 0;
 }

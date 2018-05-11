@@ -15,6 +15,7 @@
 #include "trafficlight.hpp"
 #include "police.hpp"
 #include "time.hpp"
+#include "../simulation.hpp"
 
 //! Classe Grande Irmão
 /* É a classe que organiza os eventos
@@ -48,10 +49,26 @@ BigBrother::BigBrother() : events_{structures::LinkedQueue<std::function<std::si
 }
 
 void BigBrother::start_simulation() {
+    srand(0);
     // Criar pistas e semáforos
-    for (auto i = 0; i < 14; i++) {
-        roads_->push_back(Road());
-    } for (auto i = 0; i < 6; i++) {
+    roads_->push_back(Road(simulation::Oeste_fonte_s, simulation::Oeste_fonte_v));
+    roads_->push_back(Road(simulation::N1norte_sumidouro_s, simulation::N1norte_sumidouro_v));
+    roads_->push_back(Road(simulation::S1norte_fonte_s, simulation::S1norte_fonte_v));
+    roads_->push_back(Road(simulation::N2sul_fonte_s, simulation::N2sul_fonte_v));
+    roads_->push_back(Road(simulation::Leste_fonte_s, simulation::Leste_fonte_v));
+
+    roads_->push_back(Road(simulation::S2norte_fonte_s, simulation::S2norte_fonte_v));
+    roads_->push_back(Road(simulation::N1norte_sumidouro_s, simulation::N1norte_sumidouro_v));
+    roads_->push_back(Road(simulation::S1sul_sumidouro_s, simulation::S1sul_sumidouro_v));
+    roads_->push_back(Road(simulation::Oeste_sumidouro_s, simulation::Oeste_sumidouro_v));
+    roads_->push_back(Road(simulation::Leste_sumidouro_s, simulation::Leste_sumidouro_v));
+
+    roads_->push_back(Road(simulation::S2sul_sumidouro_s, simulation::S2sul_sumidouro_v));
+    roads_->push_back(Road(simulation::N2norte_sumidouro_s, simulation::N2norte_sumidouro_v));
+    roads_->push_back(Road(simulation::Centro_leste_s, simulation::Centro_leste_v));
+    roads_->push_back(Road(simulation::Centro_oeste_s, simulation::Centro_oeste_v));
+
+    for (auto i = 0; i < 6; i++) {
         structures::ArrayList<Road>* roads = new structures::ArrayList<Road>(3);
 
         tlights_->push_back(new TrafficLight(*roads_->at(i)));

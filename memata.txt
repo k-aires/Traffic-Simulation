@@ -1,0 +1,11 @@
+eventos = inserir carro, remover carro, abrir semáforo
+          lista de eventos com números?
+
+inserir carro = insere em cada pista de entrada se o tempo é certo pra entrada
+de carro e insere nos certos
+
+remover carro = verifica se o tempo é certo para a remoção de carro de alguma
+pista de saida e retira os necessários
+
+abrir semáforo = abre um semáforo de cada cruzamento (2) e passa os carros se
+possível

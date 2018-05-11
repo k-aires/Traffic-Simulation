@@ -19,15 +19,23 @@ class TrafficLight {
      TrafficLight(Road* origin, structures::ArrayList<Road> destinations);
      TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities);
 
-     Road origin();
-     Road destination();
+     Road* origin();
+     Road* destination();
 
      std::size_t open_light();
+     bool open();
 
  private:
+     struct Next {
+         Road* destination_;
+         Car car_;
+         bool stuck_{false};
+     };
+
      Road* origin_;
      structures::ArrayList<Road> destinations_;
      structures::ArrayList<int> probabilities_;
+     Next stuck_{Next()};
 };
 
 TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations) : origin_{origin}, destinations_{destinations} {
@@ -41,33 +49,43 @@ TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destination
 
 TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities) : origin_{origin}, destinations_{destinations}, probabilities_{probabilities} {}
 
-Road TrafficLight::origin() {return origin_;}
+Road* TrafficLight::origin() {return origin_;}
 
-Road TrafficLight::destination() {
+Road* TrafficLight::destination() {
     srand(0);
     auto prob = rand()%10;
 
     if (prob < probabilities_[0]) {
-        return destinations_[0];
+        return &destinations_[0];
     } else if (prob < probabilities_[0] + probabilities_[1]) {
-        return destinations_[1];
+        return &destinations_[1];
     }
 
-    return destinations_[2];
+    return &destinations_[2];
 }
 
-std::size_t TrafficLight::open_light() { // Terminar
-    Road* helper = destination();
-    if (helper->free()) {
-	    auto free_space_ = helper->max_size() - helper->size();
-	    auto car_ = origin_->remove_car();
-	    if (car_.size() < free_space_) {
-		    helper->add_car(car_);
-	    }
+std::size_t TrafficLight::open_light() {
+    auto velocity = 0u;
+    if (stuck_.stuck_) {
+        if (stuck_.car_.size() < (stuck_.destination_->max_size() - stuck_.destination_->size())) {
+            velocity = stuck_.destination_->velocity();
+            stuck_.destination_->add_car(stuck_.car_);
+            stuck_.stuck_ = false;
+        }
     } else {
+        Road* helper = destination();
+        auto car = origin_->remove_car();
+        if (car.size() < helper->max_size() - helper->size()) {
+            velocity = helper->velocity();
+            helper->add_car(car);
+        } else {
+            stuck_.stuck_ = true;
+            stuck_.car_ = car;
+            stuck_.destination_ = helper;
+        }
     }
 
-    return helper->velocity();
+    return velocity;
 }
 
 #endif

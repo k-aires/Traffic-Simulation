@@ -9,6 +9,7 @@
  */
 class Police {
  public:
+     Police();
      Police(structures::ArrayList<Road> creators, structures::ArrayList<Road> destructors);
 
      void create_car();

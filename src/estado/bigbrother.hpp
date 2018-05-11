@@ -14,6 +14,7 @@
 #include "road.hpp"
 #include "trafficlight.hpp"
 #include "police.hpp"
+#include "time.hpp"
 
 //! Classe Grande Irmão
 /* É a classe que organiza os eventos
@@ -23,9 +24,9 @@ class BigBrother {
  public:
      BigBrother();
 
-     std::size_t start_simulation();
-     std::size_t end_simulation();
-     std::size_t set_in_motion();
+     void start_simulation();
+     void end_simulation();
+     void set_in_motion();
 
      void blitz(); //Cria ou deleta carros
 
@@ -36,25 +37,30 @@ class BigBrother {
      structures::ArrayList<Road>* roads_;
      structures::ArrayList<TrafficLight>* tlights_;
      Police police_;
+     Time time_;
 };
 
-BigBrother::BigBrother() : events_{structures::LinkedQueue<std::function<std::size_t()>>()}, roads_{new structures::ArrayList<Road>(14)}, tlights_{new structures::ArrayList<TrafficLight>(8)}, police_{NULL} {
-    events_.enqueue(start_simulation);
-    srand(0);
+BigBrother::BigBrother() : events_{structures::LinkedQueue<std::function<std::size_t()>>()}, roads_{new structures::ArrayList<Road>(14)}, tlights_{new structures::ArrayList<TrafficLight>(8)}, time_{Time()} {
+     srand(0);
+     start_simulation();
 }
 
-std::size_t BigBrother::start_simulation() {
+void BigBrother::start_simulation() {
     // Criar pistas e semáforos
     // Criar polícia
     // Criar carros e iniciar os eventos
-    return 0;
 }
 
-std::size_t BigBrother::end_simulation() {events_.clear(); return 0;}
+void BigBrother::end_simulation() {events_.clear();}
 
-std::size_t BigBrother::set_in_motion() {
-    events_.dequeue()();
-    return 0;
+void BigBrother::set_in_motion() {
+    time_.add(events_.dequeue()());
+    if (time_.seconds()%15 > 9) {
+        blitz();
+    }
+    TrafficLight* fuck = &tlights_->at(rand()%8);
+    std::function<std::size_t()> call = &fuck->open_light;
+    events_.enqueue(call);
 }
 
 void BigBrother::blitz() {

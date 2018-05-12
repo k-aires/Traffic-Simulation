@@ -16,7 +16,6 @@
  */
 class TrafficLight {
  public:
-     TrafficLight(Road* origin, structures::ArrayList<Road> destinations);
      TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities);
 
      Road* origin();
@@ -37,15 +36,6 @@ class TrafficLight {
      structures::ArrayList<int> probabilities_;
      Next stuck_{Next()};
 };
-
-TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations) : origin_{origin}, destinations_{destinations} {
-    srand(0);
-    probabilities_ = structures::ArrayList<int>(3);
-    probabilities_[0] = rand()%8 + 1;
-    auto helper = 9 - probabilities_[0];
-    probabilities_[1] = rand()%helper + 1;
-    probabilities_[2] = (helper+1) - probabilities_[1];
-}
 
 TrafficLight::TrafficLight(Road* origin, structures::ArrayList<Road> destinations, structures::ArrayList<int> probabilities) : origin_{origin}, destinations_{destinations}, probabilities_{probabilities} {}
 
